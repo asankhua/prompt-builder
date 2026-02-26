@@ -49,11 +49,24 @@
             const [tone, setTone] = useState('Professional');
             const [strategy, setStrategy] = useState('Zero-Shot');
             const [copied, setCopied] = useState(false);
+            
+            // Dynamic Example State
+            const [examples, setExamples] = useState([
+                { input: '', output: '' },
+                { input: '', output: '' }
+            ]);
 
             // --- Configuration & Data ---
             const tones = ['Professional', 'Academic', 'Casual', 'Encouraging', 'Skeptical', 'Humorous', 'Empathetic', 'Direct'];
             const outputs = ['Bullet points', 'Structured Essay', 'Python Code', 'Step-by-step tutorial', 'Summary table', 'Flashcard deck'];
             
+            // --- Handlers ---
+            const updateExample = (index, field, value) => {
+                const newExamples = [...examples];
+                newExamples[index][field] = value;
+                setExamples(newExamples);
+            };
+
             // --- Logic ---
             const constructPrompt = () => {
                 const isFormEmpty = !role.trim() && !situation.trim() && !output.trim();
@@ -63,26 +76,29 @@
                 
                 let promptParts = [];
                 
-                // 1. Role Logic: Automatically formats the persona
+                // 1. Role Logic
                 if (role.trim()) {
                     const r = role.trim();
                     const prefix = /^(act as|you are|imagine you are|play the role of)/i.test(r) ? "" : "Act as ";
                     promptParts.push(`## SYSTEM ROLE\n${prefix}${r}.\nAdopt this persona fully, leveraging all relevant expertise and domain knowledge to assist the user.`);
                 }
 
-                // 2. Context Logic: Crafts a professional wrapper around the user's basic input
+                // 2. Context Logic
                 if (situation.trim()) {
                     promptParts.push(`## CONTEXT & SITUATION\nHere is the core situation you need to address:\n\n<situation>\n${situation.trim()}\n</situation>\n\nPlease analyze the context inside the tags carefully to ensure your response is perfectly tailored to these specific circumstances.`);
                 }
 
-                // Strategy Logic: Advanced Shot-Prompting
+                // Strategy Logic: Dynamic Shot-Prompting
                 if (strategy === 'One-Shot') {
-                    promptParts.push(`## REFERENCE EXAMPLE\nTo guide your style and formatting, here is an example of the expected output:\n\n<example>\nInput: [Insert Example Input Here]\nOutput: [Insert Expected Output Here]\n</example>`);
+                    const ex1 = examples[0];
+                    promptParts.push(`## REFERENCE EXAMPLE\nTo guide your style and formatting, here is an example of the expected output:\n\n<example>\nInput: ${ex1.input || '[Insert Example Input Here]'}\nOutput: ${ex1.output || '[Insert Expected Output Here]'}\n</example>`);
                 } else if (strategy === 'Few-Shot') {
-                    promptParts.push(`## REFERENCE EXAMPLES\nTo guide your style and formatting, here are some examples of the expected output:\n\n<example_1>\nInput: [Insert Example 1 Input]\nOutput: [Insert Expected Output 1]\n</example_1>\n\n<example_2>\nInput: [Insert Example 2 Input]\nOutput: [Insert Expected Output 2]\n</example_2>`);
+                    const ex1 = examples[0];
+                    const ex2 = examples[1];
+                    promptParts.push(`## REFERENCE EXAMPLES\nTo guide your style and formatting, here are some examples of the expected output:\n\n<example_1>\nInput: ${ex1.input || '[Insert Example 1 Input]'}\nOutput: ${ex1.output || '[Insert Expected Output 1]'}\n</example_1>\n\n<example_2>\nInput: ${ex2.input || '[Insert Example 2 Input]'}\nOutput: ${ex2.output || '[Insert Expected Output 2]'}\n</example_2>`);
                 }
 
-                // 3. Output & Formatting Logic: Creates strict execution boundaries
+                // 3. Output & Formatting Logic
                 let taskInstructions = [];
                 if (output.trim()) {
                     taskInstructions.push(`- Format your response strictly as: ${output.trim()}`);
@@ -130,6 +146,7 @@
                 setOutput('');
                 setTone('Professional');
                 setStrategy('Zero-Shot');
+                setExamples([{ input: '', output: '' }, { input: '', output: '' }]);
             };
 
             // --- Render ---
@@ -275,6 +292,58 @@
                                                 </select>
                                                 <i className="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
                                             </div>
+
+                                            {/* Dynamic Example Fields based on Strategy */}
+                                            {(strategy === 'One-Shot' || strategy === 'Few-Shot') && (
+                                                <div className="mt-6 space-y-4 transition-all duration-300">
+                                                    <div className="p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                                                        <h5 className="text-[10px] font-bold text-indigo-800 uppercase tracking-wider mb-3">Example 1</h5>
+                                                        <div className="space-y-3">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Example Input (e.g., User asks for sick leave)"
+                                                                value={examples[0].input}
+                                                                onChange={(e) => updateExample(0, 'input', e.target.value)}
+                                                                className="w-full p-3 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm placeholder:text-slate-400"
+                                                            />
+                                                            <textarea
+                                                                placeholder="Expected Output (e.g., I will be on sick leave today...)"
+                                                                value={examples[0].output}
+                                                                onChange={(e) => updateExample(0, 'output', e.target.value)}
+                                                                className="w-full p-3 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm min-h-[80px] placeholder:text-slate-400"
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    {strategy === 'Few-Shot' && (
+                                                        <div className="p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                                                            <h5 className="text-[10px] font-bold text-indigo-800 uppercase tracking-wider mb-3">Example 2</h5>
+                                                            <div className="space-y-3">
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Example 2 Input"
+                                                                    value={examples[1].input}
+                                                                    onChange={(e) => updateExample(1, 'input', e.target.value)}
+                                                                    className="w-full p-3 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm placeholder:text-slate-400"
+                                                                />
+                                                                <textarea
+                                                                    placeholder="Expected Output 2"
+                                                                    value={examples[1].output}
+                                                                    onChange={(e) => updateExample(1, 'output', e.target.value)}
+                                                                    className="w-full p-3 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm min-h-[80px] placeholder:text-slate-400"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            {strategy === 'Chain of Thought' && (
+                                                <p className="mt-3 text-[11px] text-indigo-600 bg-indigo-50 p-3 rounded-lg flex items-start gap-2 border border-indigo-100">
+                                                    <i className="fa-solid fa-circle-info mt-[2px]"></i>
+                                                    Instructs the AI to explain its reasoning step-by-step before answering, increasing accuracy for complex logic.
+                                                </p>
+                                            )}
                                         </div>
 
                                         {/* Section 4 & 5: Output & Tone */}
