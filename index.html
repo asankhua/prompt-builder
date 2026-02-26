@@ -53,8 +53,7 @@
             // --- Configuration & Data ---
             const tones = ['Professional', 'Academic', 'Casual', 'Encouraging', 'Skeptical', 'Humorous', 'Empathetic', 'Direct'];
             const outputs = ['Bullet points', 'Structured Essay', 'Python Code', 'Step-by-step tutorial', 'Summary table', 'Flashcard deck'];
-            const strategies = ['Zero-Shot', 'One-Shot', 'Few-Shot', 'Chain of Thought'];
-
+            
             // --- Logic ---
             const constructPrompt = () => {
                 const isFormEmpty = !role.trim() && !situation.trim() && !output.trim();
@@ -67,7 +66,6 @@
                 // 1. Role Logic: Automatically formats the persona
                 if (role.trim()) {
                     const r = role.trim();
-                    // Checks if user naturally typed "act as" or "you are", otherwise adds it
                     const prefix = /^(act as|you are|imagine you are|play the role of)/i.test(r) ? "" : "Act as ";
                     promptParts.push(`## SYSTEM ROLE\n${prefix}${r}.\nAdopt this persona fully, leveraging all relevant expertise and domain knowledge to assist the user.`);
                 }
@@ -106,7 +104,6 @@
             const copyToClipboard = () => {
                 const text = constructPrompt();
                 
-                // Use robust fallback for iframe permissions
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
                 textArea.style.position = "fixed";
@@ -164,6 +161,50 @@
                     </nav>
 
                     <main className="relative z-10 max-w-7xl mx-auto p-4 md:p-8 lg:p-12">
+                        
+                        {/* Instructions Card - FULL WIDTH AT TOP */}
+                        <div className="mb-12 bg-white/90 backdrop-blur-md rounded-3xl border border-white shadow-xl p-8">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                                    <i className="fa-solid fa-circle-question text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 className="font-black text-slate-900 text-lg uppercase tracking-wider leading-none">How to Build a High-Performance Prompt</h3>
+                                    <p className="text-xs text-slate-500 mt-1 font-medium italic">Follow the RSOT architecture for optimal AI results</p>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-md">1</div>
+                                    <div>
+                                        <h4 className="text-xs font-black text-slate-900 uppercase mb-1">Define Persona</h4>
+                                        <p className="text-[11px] text-slate-600 leading-relaxed">Describe AI's role, expertise, and behavioral traits.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-md">2</div>
+                                    <div>
+                                        <h4 className="text-xs font-black text-slate-900 uppercase mb-1">Write Situation</h4>
+                                        <p className="text-[11px] text-slate-600 leading-relaxed">Provide detailed background to prevent model hallucinations.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-md">3</div>
+                                    <div>
+                                        <h4 className="text-xs font-black text-slate-900 uppercase mb-1">Select Strategy</h4>
+                                        <p className="text-[11px] text-slate-600 leading-relaxed">Choose reasoning steps or stylistic mimicry with examples.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-md">4</div>
+                                    <div>
+                                        <h4 className="text-xs font-black text-slate-900 uppercase mb-1">Copy & Use</h4>
+                                        <p className="text-[11px] text-slate-600 leading-relaxed">Copy compiled prompt and paste into Gemini, ChatGPT, etc.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                             
                             {/* Left Column: Form Controls */}
@@ -196,7 +237,7 @@
                                             <textarea
                                                 value={role}
                                                 onChange={(e) => setRole(e.target.value)}
-                                                placeholder="Example: Act as a Senior UX Researcher at Google with 10 years of experience..."
+                                                placeholder="Example: Act as a Senior UX Researcher at Google..."
                                                 className="w-full p-4 rounded-xl border border-slate-200/60 bg-white/60 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none min-h-[120px] text-sm leading-relaxed transition-all placeholder:text-slate-400"
                                             />
                                         </div>
@@ -210,7 +251,7 @@
                                             <textarea
                                                 value={situation}
                                                 onChange={(e) => setSituation(e.target.value)}
-                                                placeholder="Specify the problem details, constraints, and any relevant background information..."
+                                                placeholder="Specify the problem details, constraints, and background information..."
                                                 className="w-full p-4 rounded-xl border border-slate-200/60 bg-white/60 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none min-h-[140px] text-sm leading-relaxed transition-all placeholder:text-slate-400"
                                             />
                                         </div>
@@ -234,12 +275,6 @@
                                                 </select>
                                                 <i className="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
                                             </div>
-                                            {strategy !== 'Zero-Shot' && (
-                                                <p className="mt-3 text-[11px] text-indigo-600 bg-indigo-50 p-3 rounded-lg flex items-start gap-2 border border-indigo-100">
-                                                    <i className="fa-solid fa-circle-info mt-[2px]"></i>
-                                                    {strategy === 'Chain of Thought' ? "Instructs the AI to explain its reasoning step-by-step before answering, increasing accuracy for complex logic." : "Placeholder tags will be added to your prompt. You will need to fill them in with examples to guide the AI."}
-                                                </p>
-                                            )}
                                         </div>
 
                                         {/* Section 4 & 5: Output & Tone */}
@@ -284,20 +319,17 @@
 
                             {/* Right Column: Preview & Output */}
                             <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
+                                
+                                {/* Preview Card */}
                                 <div className="bg-slate-900 rounded-3xl shadow-2xl shadow-slate-900/40 overflow-hidden border border-slate-800">
-                                    <div className="px-6 py-4 bg-slate-900 flex justify-between items-center border-b border-white/10">
+                                    <div className="px-6 py-4 bg-slate-900 flex items-center border-b border-white/10">
                                         <div className="flex items-center gap-2">
                                             <i className="fa-solid fa-terminal text-indigo-400 text-xs"></i>
                                             <span className="text-slate-300 text-[10px] font-bold uppercase tracking-widest">Compiled Output</span>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <div className="w-3 h-3 rounded-full bg-red-500/80 border border-red-500"></div>
-                                            <div className="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-500"></div>
-                                            <div className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-500"></div>
-                                        </div>
                                     </div>
                                     <div className="p-8">
-                                        <div className="bg-slate-900 text-slate-300 font-mono text-sm whitespace-pre-wrap min-h-[350px] max-h-[550px] overflow-y-auto leading-relaxed custom-scrollbar selection:bg-indigo-500/30">
+                                        <div className="bg-slate-900 text-slate-300 font-mono text-sm whitespace-pre-wrap min-h-[300px] max-h-[600px] overflow-y-auto leading-relaxed custom-scrollbar selection:bg-indigo-500/30">
                                             {constructPrompt()}
                                         </div>
                                         
@@ -320,7 +352,7 @@
                                     <div>
                                         <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-1">Architecture Tip</h4>
                                         <p className="text-[11px] text-slate-600 leading-relaxed">
-                                            Our system uses <strong>XML Context Isolation</strong>. By wrapping your background info in <code className="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded border border-indigo-100 font-mono">&lt;situation&gt;</code>, advanced LLMs process the instructions with significantly higher accuracy and reduced hallucination.
+                                            Our system uses <strong>XML Context Isolation</strong>. By wrapping your background info in <code className="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded border border-indigo-100 font-mono">&lt;situation&gt;</code>, advanced LLMs process instructions with significantly higher accuracy and reduced hallucination.
                                         </p>
                                     </div>
                                 </div>
@@ -329,7 +361,7 @@
                         </div>
                     </main>
 
-                    <footer className="relative z-10 mt-16 border-t border-slate-800 py-12 px-6 bg-slate-900/95 backdrop-blur-lg text-center shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
+                    <footer className="relative z-10 mt-16 border-t border-slate-800 py-12 px-6 bg-slate-900/95 backdrop-blur-lg text-center shadow-[0_-4px_20px_rgba(0,0,0,0.02)]">
                         <div className="max-w-7xl mx-auto flex flex-col items-center gap-4">
                             <div className="flex items-center gap-2 text-slate-400 opacity-80">
                                 <i className="fa-solid fa-cube text-xl"></i>
