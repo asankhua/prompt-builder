@@ -1,0 +1,48 @@
+                                    🧱 Prompt Builder (Enterprise Edition)
+
+A single-file, client-side tool to craft highly optimized, structured prompts for LLMs like Claude, ChatGPT, and Gemini. Built with React and Tailwind CSS via CDN, it requires zero build steps.
+
+✨ Features
+
+Zero-Dependency: Runs entirely from one index.html file.
+
+Advanced Prompting: Supports Zero-Shot, One/Few-Shot, and Chain of Thought strategies.
+
+XML Context Isolation: Wraps context in <situation> tags to reduce AI hallucinations.
+
+Real-Time Engine: Watch your prompt compile structurally as you type.
+
+Premium UI: Glassmorphism design with a dark-mode output terminal and 1-click copy.
+
+🛠️ Tech Stack
+
+React 18 | Tailwind CSS | FontAwesome 6 | Babel Standalone (All loaded via CDN)
+
+🚀 Deployment
+
+Local: Simply double-click index.html to open in any browser.
+Web (GitHub Pages):
+
+Upload index.html to a new GitHub repo.
+
+Go to Settings > Pages.
+
+Set source to the main branch and save.
+
+🧠 Architecture (RSOT Framework)
+
+Forces AI adherence using a strict 5-pillar structure:
+
+Role: Who the AI is.
+
+Context: What the problem is (safely isolated in XML).
+
+Strategy: How the AI should think (Examples / Step-by-Step).
+
+Format: The shape of the output (Bullet points, Code, etc.).
+
+Tone: The voice of the response.
+
+👨‍💻 Author
+
+Ashish Kumar Sankhua | © 2026 All rights reserved.
