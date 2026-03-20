@@ -1,0 +1,31 @@
+                                        🧱 Prompt Builder
+
+A single-file, zero-build tool for crafting optimized LLM prompts (Claude, ChatGPT, Gemini) using React & Tailwind via CDN.
+
+✨ Features
+
+Zero-Build: Runs entirely from one index.html.
+Smart Prompting: Zero/Few-Shot & Chain of Thought support.
+XML Isolation: Reduces hallucinations using <situation> tags.
+Live Preview: Real-time compilation with a 1-click copy premium UI.
+
+ 🛠️ Stack
+
+React 18 | Tailwind CSS | FontAwesome 6 | Babel Standalone (CDN)
+
+🚀 Deployment
+
+Local: Open index.html in any browser.
+GitHub Pages: Upload index.html -> Repo Settings -> Pages -> Deploy main branch.
+
+🧠 RSOT Framework
+
+Role: AI Persona.
+Context: XML-isolated problem.
+Strategy: Reasoning approach (e.g., Step-by-Step).
+Format: Output shape (e.g., Code, Bullet points).
+Tone: Response voice.
+
+👨‍💻 Author
+
+Ashish Kumar Sankhua | © 2026
