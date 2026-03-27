@@ -1,13 +1,10 @@
-# 📋 AI Product Case Study: Prompt Builder
+**Prompt Builder**  
+*Craft perfect LLM prompts in seconds, not hours — no technical expertise required*
 
-**Product Name:** Prompt Builder  
-**Tagline:** "Craft perfect LLM prompts in seconds, not hours — no technical expertise required"  
 **Author:** Ashish Kumar Sankhua | Product Manager  
-**Date:** March 27, 2026  
-**Status:** Production Ready 
+**Date:** March 27, 2026 | **Status:** Production Ready
 
 ---
-
 
 ## 1. Executive Summary
 
