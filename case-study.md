@@ -4,24 +4,10 @@
 **Tagline:** "Craft perfect LLM prompts in seconds, not hours — no technical expertise required"  
 **Author:** Ashish Kumar Sankhua | Product Manager  
 **Date:** March 27, 2026  
-**Status:** Production Ready | Live at [asankhua.github.io/prompt-builder](https://asankhua.github.io/prompt-builder/)
+**Status:** Production Ready 
 
 ---
 
-## 📑 Table of Contents
-
-1. [Executive Summary](#1-executive-summary)
-2. [Problem Statement](#2-problem-statement)
-3. [Solution Overview](#3-solution-overview)
-4. [Technology Justification](#4-technology-justification)
-5. [Success Metrics](#5-success-metrics)
-6. [Risk Assessment](#6-risk-assessment)
-7. [Technical Architecture](#7-technical-architecture)
-8. [Go-to-Market](#8-go-to-market)
-9. [Lessons & Roadmap](#9-lessons--roadmap)
-10. [Conclusion](#10-conclusion)
-
----
 
 ## 1. Executive Summary
 
